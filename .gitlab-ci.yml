@@ -1,0 +1,20 @@
+image: ubuntu:22.04
+
+stages:
+ - build
+ - test
+
+compilation:
+    stage: build
+    script:
+     - apt-get update && apt-get install -y gcc
+     - gcc -Wall -Wextra -pedantic -std=c99 -D_GNU_SOURCE src/files_data.c src/tableau_extensible.c src/paths_fichiers.c src/sort_by_size.c src/interface.c -o duplicate-detector
+    artifacts:
+        paths:
+            - duplicate-detector
+        expire_in: 1 week
+
+tests:
+    stage: test
+    script:
+     - ./duplicate-detector
